@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+DH_VERBOSE=1
+include /usr/share/python/python.mk
+
+dpkgsrc = $(shell dpkg-parsechangelog | grep ^Source  | cut -d' ' -f2)
+dpkgver = $(shell dpkg-parsechangelog | grep ^Version | cut -d' ' -f2)
+origver = $(shell echo $(dpkgver) | cut -d'-' -f1)
+
+get-orig-source:
+	fakeroot dh clean
+	-quilt pop -a
+	dh_testdir && cd .. && \
+	find $(shell basename $(CURDIR)) -type f \
+	! \( -wholename '*.svn*' -o -wholename '*debian*' -o -name '*.pc*' \) \
+	-print0 | xargs -0 tar -czf $(dpkgsrc)_$(origver).orig.tar.gz
+
+override_dh_auto_clean:
+	find . -type f -name '*.py[oc]' -execdir rm {} ';'
+
+override_dh_auto_install:
+	mkdir -p $(CURDIR)/debian/tmp/$(py_libdir_sh)/questionnaire
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/python-django-questionnaire/media
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/python-django-questionnaire/templates
+	# install py files
+	find . -type f ! \( -wholename '*.svn*' -o -wholename '*debian*' -o -name 'LICENSE' \) \
+		-a -name '*.py' -print0 | xargs -0 tar -cf - \
+		| tar -C debian/tmp/$(py_libdir_sh)/questionnaire -xf -
+	# install templates
+	dh_testdir
+	cd templates && find . -type f ! -wholename '*.svn*' -print0 | xargs -0 tar -cf - \
+	| tar -C $(CURDIR)/debian/tmp/usr/share/python-django-questionnaire/templates -xf -
+	# install media
+	dh_testdir
+	cd media && find . -type f ! -wholename '*.svn*' -print0 | xargs -0 tar -cf - \
+	| tar -C $(CURDIR)/debian/tmp/usr/share/python-django-questionnaire/media -xf -
+
+
+%:
+	dh $@
+

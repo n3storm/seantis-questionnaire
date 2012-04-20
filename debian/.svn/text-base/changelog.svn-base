@@ -1,0 +1,42 @@
+django-questionnaire (0.2-servabit6) unstable; urgency=low
+
+  * Fixed export report csv really
+
+ -- Marco Bardelli <marco.bardelli@servabit.it>  Mon, 27 Jun 2011 10:37:57 +0200
+
+django-questionnaire (0.2-servabit5) unstable; urgency=low
+
+  * Fixed export report csv
+
+ -- Marco Bardelli <marco.bardelli@servabit.it>  Mon, 27 Jun 2011 10:37:57 +0200
+
+django-questionnaire (0.2-servabit4) unstable; urgency=low
+
+  * Fixed debian/control, removed patch
+
+ -- Marco Bardelli <marco.bardelli@servabit.it>  Mon, 27 Jun 2011 10:37:57 +0200
+
+django-questionnaire (0.2-servabit3) unstable; urgency=low
+
+  * Not sync questionnaires for assistance
+
+ -- Marco Bardelli <marco.bardelli@servabit.it>  Mon, 27 Jun 2011 10:37:57 +0200
+
+django-questionnaire (0.2-servabit2) unstable; urgency=low
+
+  * Added OE (sai) Tickets management
+
+ -- Marco Bardelli <marco.bardelli@servabit.it>  Fri, 24 Jun 2011 18:50:16 +0200
+
+django-questionnaire (0.2-servabit1) unstable; urgency=low
+
+  * Upstream update: added cms_app
+
+ -- Marco Bardelli <marco.bardelli@servabit.it>  Wed, 08 Jun 2011 15:09:56 +0200
+
+django-questionnaire (0.1-servabit1) unstable; urgency=low
+
+  * Initial Package
+
+ -- Marco Bardelli <marco.bardelli@servabit.it>  Thu, 23 Dec 2010 11:45:16 +0100
+

@@ -1,0 +1,10 @@
+Package: python-django-questionnaire
+Source: django-questionnaire
+Version: 2.0-aderit1
+Architecture: all
+Maintainer: Matteo Atti <matteo.atti@aderit.it>
+Installed-Size: 552
+Depends: python-django, python-django-transmeta, python-pyparsing, python-textile
+Section: python
+Priority: extra
+Description: Seantis Questionnaire reviewed by Aderit

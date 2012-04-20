@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+
+override_dh_pysupport:
+	dh_pysupport
+	cp -rf questionnaire/templates questionnaire/static debian/python-django-questionnaire/usr/share/pyshared/questionnaire/
+
+%:
+	dh $@
