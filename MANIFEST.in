@@ -1,0 +1,2 @@
+recursive-include questionnaire/static *
+recursive-include questionnaire/templates *
