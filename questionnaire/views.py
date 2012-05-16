@@ -59,6 +59,7 @@ def add_answer(runinfo, question, answer_dict):
     answer = Answer()
     answer.question = question
     answer.subject = runinfo.subject
+    #~ Nestor answer.user = request.user
     answer.runid = runinfo.runid
 
     type = question.get_type()
@@ -271,6 +272,7 @@ def questionnaire(request, runcode=None, qs=None):
     """
 
     # if runcode provided as query string, redirect to the proper page
+    
     if not runcode:
         runcode = request.GET.get('runcode')
         if not runcode:
@@ -938,8 +940,8 @@ def generate_run(request, questionnaire_id):
     A view that can generate a RunID instance anonymously,
     and then redirect to the questionnaire itself.
 
-    It uses a Subject with the givenname of 'Anonymous' and the
-    surname of 'User'.  If this Subject does not exist, it will
+    It uses a Subject with the first_name of 'Anonymous' and the
+    last_name of 'User'.  If this Subject does not exist, it will
     be created.
 
     This can be used with a URL pattern like:
@@ -947,11 +949,11 @@ def generate_run(request, questionnaire_id):
     """
     qu = get_object_or_404(Questionnaire, id=questionnaire_id)
     qs = qu.questionsets()[0]
-    su = Subject.objects.filter(givenname='Anonymous', surname='User')[0:1]
+    su = Subject.objects.filter(first_name='Anonymous', last_name='User')[0:1]
     if su:
         su = su[0]
     else:
-        su = Subject(givenname='Anonymous', surname='User')
+        su = Subject(first_name='Anonymous', last_name='User')
         su.save()
     hash = md5.new()
     hash.update("".join(map(lambda i: chr(random.randint(0, 255)), range(16))))

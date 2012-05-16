@@ -1,12 +1,13 @@
-from django.db import models
-from transmeta import TransMeta
-from django.utils.translation import ugettext_lazy as _
-from questionnaire import QuestionChoices
 import re
-from utils import split_numal
-from django.utils import simplejson as json
 from parsers import parse_checks, ParseException
+from django.db import models
 from django.conf import settings
+from django.utils import simplejson as json
+from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
+from transmeta import TransMeta
+from questionnaire import QuestionChoices
+from utils import split_numal
 
 _numre = re.compile("(\d+)([a-z]+)", re.I)
 
@@ -20,15 +21,15 @@ class Subject(models.Model):
     ]
     state = models.CharField(max_length=16, default="inactive",
         choices = STATE_CHOICES, verbose_name=_('State'))
-    surname = models.CharField(max_length=64, blank=True, null=True,
-        verbose_name=_('Surname'))
-    givenname = models.CharField(max_length=64, blank=True, null=True,
-        verbose_name=_('Given name'))
+    last_name = models.CharField(max_length=64, blank=True, null=True,
+        verbose_name=_('Last name'))
+    first_name = models.CharField(max_length=64, blank=True, null=True,
+        verbose_name=_('First name'))
     email = models.EmailField(null=True, blank=True, verbose_name=_('Email'))
     gender = models.CharField(max_length=8, default="unset", blank=True,
         verbose_name=_('Gender'),
-        choices = ( ("unset", _("Unset")),
-                    ("male", _("Male")),
+        choices = ( ("unset",  _("Unset") ),
+                    ("male",   _("Male")  ),
                     ("female", _("Female")),
         )
     )
@@ -41,9 +42,10 @@ class Subject(models.Model):
     )
     language = models.CharField(max_length=2, default=settings.LANGUAGE_CODE,
         verbose_name = _('Language'), choices = settings.LANGUAGES)
+    user = models.ForeignKey(User, blank=True, null=True)
 
     def __unicode__(self):
-        return u'%s, %s (%s)' % (self.surname, self.givenname, self.email)
+        return u'%s, %s (%s)' % (self.last_name, self.first_name, self.email)
 
     def next_runid(self):
         "Return the string form of the runid for the upcoming run"
@@ -203,7 +205,7 @@ class RunInfo(models.Model):
         return self.__cookiecache
 
     def __unicode__(self):
-        return "%s: %s, %s" % (self.runid, self.subject.surname, self.subject.givenname)
+        return "%s: %s, %s" % (self.runid, self.subject.last_name, self.subject.first_name)
 
     class Meta:
         verbose_name_plural = 'Run Info'
@@ -355,7 +357,7 @@ class Answer(models.Model):
     answer = models.TextField()
 
     def __unicode__(self):
-        return "Answer(%s: %s, %s)" % (self.question.number, self.subject.surname, self.subject.givenname)
+        return "Answer(%s: %s, %s)" % (self.question.number, self.subject.last_name, self.subject.first_name)
 
     def choice_str(self, secondary = False):
         choice_string = ""
