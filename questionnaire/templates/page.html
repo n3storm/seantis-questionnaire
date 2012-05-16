@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load markup %}
+{% load markup i18n %}
 
 {% block title %}
     {{ block.super }} - {{ page.title }}
@@ -8,6 +8,6 @@
 {% block content %}
     {{ page.body|textile }}
     {% if user.is_authenticated %}
-        <a href="/admin/page/page/{{ page.slug }}/">(edit)</a>
+        <a class="button" href="/admin/page/page/{{ page.slug }}/">{% trans "Edit" %}</a>
     {% endif %}
 {% endblock %}
